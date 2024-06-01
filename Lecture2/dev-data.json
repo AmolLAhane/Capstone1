@@ -1,0 +1,15 @@
+[
+    {
+        "id":1,
+        "name":"Steve Harvey",
+        "userName":"Bret",
+        "email":"Sincere@prill.biz",
+        "address":{
+           "street":"Kulas Light",
+           "Suite":"Apt.556",
+           "city":"Gwenbourough",
+           "zipCode":"92998-3874"
+        
+        }
+    }
+]

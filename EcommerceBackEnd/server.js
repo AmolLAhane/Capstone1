@@ -12,6 +12,7 @@ const { connect } = require("http2");
 app.use(express.json());
 const dbUrl = `mongodb+srv://${USERID}:${MANGODBPASSWORD}@cluster0.cv4da56.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
+
 const { UserModel } = require("./userModel");
 const { log } = require("console");
 
@@ -90,28 +91,50 @@ app.post("/api/user", sanityMiddleware, async (req, res) => {
   }
 });
 
-//app.patch("/api/user",updateUser);
+app.patch("/api/user/:id",async(req,res)=>{
+  try{
+const {id}=req.params;
+const dataToBeUpdated=req.body;
+const updatedUser= await UserModel.findByIdAndUpdate(id,dataToBeUpdated,
+  {returnDocument:'after',upsert:true});
+if(updatedUser){
+  res.status(200).json({
+    message:"User Profile Updated",
+    user:updatedUser
+  })
+}else{
+  res.status(400).json({
+    message:"user profile could not be updated"
+
+  })
+}
+  }catch(err){
+    res.status(500).json({
+      message:err.message
+    })
+  }
+});
+
+
+
+
 //app.put("/api/user",updateUser);
 
-app.delete("/api/user/:id", (req, res) => {
+app.delete("/api/user/:id", async(req, res) => {
   try {
     console.log(req.params);
     const { id } = req.params;
     //search my DB  for id
-    let idx = userDataDB.findIndex((userObj) => {
-      return userObj.id == id;
-    });
+    let deletedUser= await UserModel.findOneAndDelete(id);
+  
     //delete if user is found
-    if (idx == -1) {
+    if (!deletedUser) {
       res.status(400).json({
         message: "user not found",
       });
     } else {
-      //delete the user
-      userDataDB.splice(idx, 1);
-      fs.writeFileSync("./dev-data.json", JSON.stringify(userDataDB));
       //result with success message
-      res.status(200).json({ message: "user deleted successfully" });
+      res.status(200).json({ message: "user deleted successfully",user:deletedUser});
     }
   } catch (err) {
     res.status(500).json({ message: err.message });

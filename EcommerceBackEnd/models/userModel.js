@@ -49,6 +49,10 @@ userSchema.pre("save",function(next){
   next();
   
  })
+ userSchema.pre("findOneAndDelete",(next)=>{
+  console.log("I was called before deleting a user");
+  next();
+ })
 const UserModel = mongoose.model("UserModel", userSchema);
 module.exports = {
   UserModel,

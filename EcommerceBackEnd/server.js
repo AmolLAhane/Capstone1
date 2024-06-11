@@ -1,6 +1,6 @@
 const express = require("express");
 require('dotenv').config();
-console.log(process.env);
+const { USERID, MANGODBPASSWORD } = process.env;
 
 //server created
 const app = express();
@@ -10,7 +10,7 @@ const mongoose = require("mongoose");
 const { connect } = require("http2");
 //app.use is a middleware
 app.use(express.json());
-const dbUrl = "mongodb+srv://:@cluster0.cv4da56.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const dbUrl = `mongodb+srv://${USERID}:${MANGODBPASSWORD}@cluster0.cv4da56.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 const { UserModel } = require("./userModel");
 const { log } = require("console");
@@ -72,8 +72,9 @@ app.post("/api/user", sanityMiddleware, async (req, res) => {
   try {
     //console.log(req.body);
     //get the new user
-    let newUser = req.body;
-    const user = await UserModel.create(newUser);
+    let newUser =await UserModel(req.body);
+
+    const user = await newUser.save();
     if (user) res.status(200).json({
       message: "user added successfylly",
       user
@@ -139,10 +140,7 @@ app.get("/api/user/:userid", async (req, res) => {
   }
 });
 
-//this function catches any request that comes to the server
-app.use(function (req, res) {
-  console.log(" Received request");
-});
+
 app.listen(3000, function (req, res) {
   console.log("App is listening to the port 3000");
 });

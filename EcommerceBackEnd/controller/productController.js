@@ -1,8 +1,9 @@
-const { UserModel } = require("../models/userModel");
-const getAllUsers= async (req, res) => {
+const { productModel } = require("../models/productModel");
+
+const getAllProducts= async (req, res) => {
   try {
     console.log("send data of all the users");
-    let allUsers = await UserModel.find({});
+    let allData = await ModelX.find();
     if (allUsers.length != 0) {
       res.status(200).json({
         message: "user data list",
@@ -20,7 +21,7 @@ const getAllUsers= async (req, res) => {
   }
 
 }
-const createUser=async (req, res) => {
+const createProduct=async (req, res) => {
   try {
     //console.log(req.body);
     //get the new user
@@ -41,7 +42,7 @@ const createUser=async (req, res) => {
     });
   }
 }
-const deleteUser=async(req, res) => {
+const deleteProduct=async(req, res) => {
   try {
     console.log(req.params);
     const { id } = req.params;
@@ -61,7 +62,7 @@ const deleteUser=async(req, res) => {
     res.status(500).json({ message: err.message });
   }
 }
-const updateUser=async(req,res)=>{
+const updateProduct=async(req,res)=>{
   try{
 const {id}=req.params;
 const dataToBeUpdated=req.body;
@@ -84,7 +85,7 @@ if(updatedUser){
     })
   }
 }
-const getUserById=async (req, res) => {
+const getProductById=async (req, res) => {
   try {
     let { userid } = req.params;
     //search my Db for id//
@@ -105,5 +106,5 @@ const getUserById=async (req, res) => {
   }
 }
 module.exports={
-  getAllUsers,createUser,deleteUser,updateUser,getUserById
+  getAllProducts,createProduct,deleteProduct,updateProduct,getProductById
 }

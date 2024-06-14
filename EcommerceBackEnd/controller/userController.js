@@ -1,109 +1,23 @@
 const { UserModel } = require("../models/userModel");
-const getAllUsers= async (req, res) => {
-  try {
-    console.log("send data of all the users");
-    let allUsers = await UserModel.find({});
-    if (allUsers.length != 0) {
-      res.status(200).json({
-        message: "user data list",
-        data: allUsers,
-      })
-    } else {
-      res.status(400).json({
-        message: "No user found"
-      })
-    }
-  } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
-  }
+const {createResource,
+  getAllResource,
+  deleteResource,
+  updateResource,
+  getResourceById,
+}=require("../utils/resourceFactory");
 
-}
-const createUser=async (req, res) => {
-  try {
-    //console.log(req.body);
-    //get the new user
-    let newUser =await UserModel(req.body);
+const getAllUsers=getAllResource(UserModel);
 
-    const user = await newUser.save();
-    if (user) res.status(200).json({
-      message: "user added successfylly",
-      user
-    });
-    else res.status(400).json({
-      message: "user could not be registered",
-      user
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
-  }
-}
-const deleteUser=async(req, res) => {
-  try {
-    console.log(req.params);
-    const { id } = req.params;
-    //search my DB  for id
-    let deletedUser= await UserModel.findOneAndDelete(id);
-  
-    //delete if user is found
-    if (!deletedUser) {
-      res.status(400).json({
-        message: "user not found",
-      });
-    } else {
-      //result with success message
-      res.status(200).json({ message: "user deleted successfully",user:deletedUser});
-    }
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-}
-const updateUser=async(req,res)=>{
-  try{
-const {id}=req.params;
-const dataToBeUpdated=req.body;
-const updatedUser= await UserModel.findByIdAndUpdate(id,dataToBeUpdated,
-  {returnDocument:'after',upsert:true});
-if(updatedUser){
-  res.status(200).json({
-    message:"User Profile Updated",
-    user:updatedUser
-  })
-}else{
-  res.status(400).json({
-    message:"user profile could not be updated"
+const createUser=createResource(UserModel);
 
-  })
-}
-  }catch(err){
-    res.status(500).json({
-      message:err.message
-    })
-  }
-}
-const getUserById=async (req, res) => {
-  try {
-    let { userid } = req.params;
-    //search my Db for id//
-    const user = await UserModel.findById(userid);
-    console.log(user);
-    //return if user is found//
-    if (!user) {
-      res.status(400).json({
-        message: "user not found",
-      });
-    } else {
-      //return the user
-      //res with suceess message//
-      res.status(200).json({ data: user });
-    }
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-}
+const deleteUser=deleteResource(UserModel);
+const updateUser=updateResource(UserModel);
+const getUserById=getResourceById(UserModel);
+
 module.exports={
-  getAllUsers,createUser,deleteUser,updateUser,getUserById
+  getAllUsers,
+  createUser,
+  deleteUser,
+  updateUser,
+  getUserById,
 }

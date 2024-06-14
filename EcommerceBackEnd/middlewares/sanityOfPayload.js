@@ -2,12 +2,12 @@
 const sanityMiddleware = (req, res, next) => {
   try {
     console.log("in sanitary MiddleWare");
-    let user = req.body;
-    let isEmpty = Object.keys(user).length == 0;
+    let data = req.body;
+    let isEmpty = Object.keys(data).length == 0;
     if (isEmpty) {
       res.status(400).json({
         status: "fail",
-        message: "user is not present",
+        message: "data is not present",
       });
     } else next();
   } catch (err) {

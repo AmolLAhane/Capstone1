@@ -1,6 +1,6 @@
-
 const express=require("express");
 const productRouter=express.Router();
+const {sanityMiddleware:payloadSanity}=require("../middlewares/sanityOfPayload");
 
 const {getAllProducts,
    createProduct,
@@ -8,12 +8,6 @@ const {getAllProducts,
   updateProduct,
   getProductById}
   =require("../controller/productController"); 
-
-const {
-  sanityMiddleware:payloadSanity,
-}=require("../middlewares/sanityOfPayload");
-
-
 //product routes//
 productRouter
 .route("/")
@@ -26,6 +20,4 @@ productRouter
 .delete(deleteProduct)
 .get(getProductById)
 
-module.exports={
-  productRouter
-}
+module.exports={productRouter}

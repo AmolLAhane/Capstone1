@@ -1,18 +1,13 @@
-
 const express=require("express");
 const userRouter=express.Router();
-
-const {getAllUsers,
+const {sanityMiddleware:payloadSanity}=require("../middlewares/sanityOfPayload");
+const {
+  getAllUsers,
   createUser,
   deleteUser,
   updateUser,
   getUserById
 }=require("../controller/userController");
-
-
-const {
-  sanityMiddleware:payloadSanity,
-}=require("../middlewares/sanityOfPayload");
 
 userRouter
 .route("/")
@@ -25,6 +20,4 @@ userRouter
 .patch(updateUser)
 .delete(deleteUser)
 
-module.exports={
-  userRouter
-}
+module.exports={userRouter}

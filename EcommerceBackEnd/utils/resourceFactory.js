@@ -68,10 +68,10 @@ const updateResource=function(modelName){
   const dataToBeUpdated=req.body;
   const updatedResource= await modelName.findByIdAndUpdate(id,dataToBeUpdated,
     {returnDocument:'after',upsert:true});
-  if(updateResource){
+  if(updatedResource){
     res.status(200).json({
       message:"resource Updated",
-      data:updateResource
+      data:updatedResource
     })
   }else{
     res.status(400).json({

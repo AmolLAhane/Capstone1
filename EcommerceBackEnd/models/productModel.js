@@ -30,4 +30,4 @@ required:true
 },{timestamp:true})
 
 const ProductModel=model("productModel",productSchema);
-module.exports={ ProductModel};
+module.exports= ProductModel;

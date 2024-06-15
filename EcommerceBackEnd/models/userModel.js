@@ -49,14 +49,14 @@ userSchema.pre("save",function(next){
   next();
  })
 
- userSchema.pre("findOne",function(next){
+ userSchema.pre("findOne", function (next) {
   console.log("user by id hook");
   console.log(this);
   this.select("-password");
-  next()
- })
-
+  next();
+})
  
 const UserModel = mongoose.model("UserModel", userSchema);
 
 module.exports = { UserModel};
+  

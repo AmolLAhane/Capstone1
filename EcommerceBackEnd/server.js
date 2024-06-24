@@ -5,6 +5,7 @@ const {userRouter}=require("./routes/userRouter");
 const {productRouter}=require("./routes/productRouter");
 const { USERID, MANGODBPASSWORD,PORT } = process.env;
 const app = express();
+//const cors=require("cors");
 //app.use is a middleware
 app.use(express.json());
 //let mongoClient= await mongoose.connect(dbUrl);
@@ -17,9 +18,17 @@ const dbUrl = `mongodb+srv://${USERID}:${MANGODBPASSWORD}
   console.log(err.message)
  });
 
+ //CORS
+//  const corsConfig={
+//   origin:true,
+//   credentials:false
+//  };
+//app.use(cors(corsConfig));
+//app.use("*",cors(corsConfig));
+
  //app.use
 app.use("/api/user",userRouter);
-app.use("/api/product",productRouter);
+app.use("api/v1/product",productRouter);
 
 
 app.listen(PORT, function (req, res) {

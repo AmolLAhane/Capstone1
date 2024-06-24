@@ -1,6 +1,5 @@
 const express= require("express");
 const fs=require("fs");
-
 //server created
 const app=express();
 const userDataDB=JSON.parse(fs.readFileSync("./dev-data.json","utf-8"));
